@@ -1,0 +1,152 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApplication4
+{
+    class Program
+    {
+        private class Test
+        {
+            public delegate void GetNewNumber();
+            public event GetNewNumber GettedIncreassedA;
+            public event GetNewNumber GettedDecreasedA;
+            public event GetNewNumber GettedIncreassedB;
+            public event GetNewNumber GettedDecreasedB;
+
+            public void EneterNumberA(int iA)
+            {
+                int A = iA;
+
+                if(A > 5)
+                {
+                    GettedIncreassedA();
+                }
+                else
+                {
+                    GettedDecreasedA();
+                }
+            }
+            public void EnterNumberB(int iB)
+            {
+                int B = iB;
+
+                if (B > 5)
+                {
+                    GettedIncreassedB();
+                }
+                else
+                {
+                    GettedDecreasedB();
+                }
+            }
+            #region мусор
+            public int dA
+            {
+                set
+                {
+                    dA = value;
+                    if(dA > 5)
+                    {
+                        GettedIncreassedA();
+                    }
+                    else
+                    {
+                        GettedDecreasedA();
+                    }
+
+                }
+
+                get { return dA; }
+
+            }
+            public int dB
+            {
+                set
+                {
+                    dB = value;
+                    if (dB > 5)
+                    {
+                        GettedIncreassedB();
+                    }
+                    else
+                    {
+                        GettedDecreasedB();
+                    }
+
+                }
+
+                get { return dA; }
+            }
+            #endregion
+
+
+        }
+        static void Main(string[] args)
+        {
+            int iA, iB;
+
+            Test t = new Test();
+
+            t.GettedDecreasedA += T_GettedDecreasedA;
+            t.GettedIncreassedA += T_GettedIncreassedA;
+            t.GettedDecreasedB += T_GettedDecreasedB;
+            t.GettedIncreassedB += T_GettedIncreassedB;
+
+
+            Console.Write("Number a = 5. Enter new number: ");
+
+            while (true)
+            {
+                try
+                {
+                    iA = Convert.ToInt32(Console.ReadLine());
+                    break;
+                }
+                catch(FormatException)
+                {
+                    Console.Write("Ошибка!");
+                }
+            }
+            t.EneterNumberA(iA);
+
+            Console.Write("Number b = 5.Enter new number: ");
+            while (true)
+            {
+                try
+                {
+                    iB = Convert.ToInt32(Console.ReadLine());
+                    break;
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Ошибка!");
+                }
+            }
+            t.EnterNumberB(iB);
+            Console.ReadKey();
+        }
+
+        private static void T_GettedIncreassedB()
+        {
+            Console.WriteLine("Новое число b больше 5");
+        }
+
+        private static void T_GettedDecreasedB()
+        {
+            Console.WriteLine("Новое число b меньше 5");
+        }
+
+        private static void T_GettedDecreasedA()
+        {
+            Console.WriteLine("Новое число a меньше 5");
+        }
+
+        private static void T_GettedIncreassedA()
+        {
+            Console.WriteLine("Новое число a больше 5");
+        }
+    }
+}
